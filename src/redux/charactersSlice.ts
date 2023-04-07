@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Character } from '../types.ts/character.types';
 import produce from 'immer';
+import { useAppSelector } from './hooks';
+
+const baseUrl = 'https://rickandmortyapi.com/api';
 
 const apiGetCharacters = async () => {
-  const response = await fetch('https://rickandmortyapi.com/api/character');
+  const response = await fetch(baseUrl + '/character');
   if (response.ok) {
     const data = await response.json();
     // const results: Character[] = data.response.results.map((c: any) => {
@@ -19,10 +22,29 @@ const apiGetCharacters = async () => {
   }
 };
 
+const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
+  const favoriteParams = favoriteIds.join(',');
+  const response = await fetch(baseUrl + '/character/' + favoriteParams);
+  if (response.ok) {
+    const data = await response.json();
+    return data.results;
+  } else {
+    throw new Error('Error, intentelo mas tarde');
+  }
+};
+
 export const getCharacters = createAsyncThunk('/getCharacters', async () => {
   const response = await apiGetCharacters();
   return response;
 });
+
+export const getFavoriteCharacters = createAsyncThunk(
+  '/getFavoriteCharacters',
+  async (favoriteIds: number[]) => {
+    const response = await apiGetFavoriteCharacters(favoriteIds);
+    return response;
+  }
+);
 
 interface initialType {
   characters: [];
@@ -51,6 +73,9 @@ export const characterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getCharacters.fulfilled, (state, action) => {
+      state.characters = action.payload;
+    });
+    builder.addCase(getFavoriteCharacters.fulfilled, (state, action) => {
       state.characters = action.payload;
     });
   },
