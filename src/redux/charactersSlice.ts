@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const baseUrl = 'https://rickandmortyapi.com/api';
 
-const apiGetCharacters = async () => {
-  const response = await fetch(baseUrl + '/character');
+const apiGetCharacters = async (page: string) => {
+  const url = page ? page : baseUrl + '/character';
+  const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();
     return data;
@@ -23,10 +24,14 @@ const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
   }
 };
 
-export const getCharacters = createAsyncThunk('/getCharacters', async () => {
-  const response = await apiGetCharacters();
-  return response;
-});
+// will manage pagination options
+export const getCharacters = createAsyncThunk(
+  '/getCharacters',
+  async (page: string = '') => {
+    const response = await apiGetCharacters(page);
+    return response;
+  }
+);
 
 export const getFavoriteCharacters = createAsyncThunk(
   '/getFavoriteCharacters',

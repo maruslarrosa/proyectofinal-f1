@@ -1,7 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import './paginacion.css';
 import { useEffect, useState } from 'react';
-import { actionSetNext, actionSetPrev } from '../../redux/charactersSlice';
+import {
+  actionSetNext,
+  actionSetPrev,
+  getCharacters,
+} from '../../redux/charactersSlice';
 
 /**
  * Componente que contiene los botones para paginar
@@ -15,38 +19,22 @@ const Paginacion = () => {
   const dispatch = useAppDispatch();
   const prev: string = useAppSelector((state) => state.character.prev);
   const next: string = useAppSelector((state) => state.character.next);
-  const [disablePrev, setDisablePrev] = useState(true);
-  const [disableNext, setDisableNext] = useState(true);
 
-  useEffect(() => {
-    if (prev) {
-      setDisablePrev(false);
-    }
-    if (next) {
-      setDisableNext(false);
-    }
-  }, [prev, next]);
+  const handlePrevClick = () => {
+    debugger;
+    dispatch(getCharacters(prev));
+  };
 
   const handleNextClick = () => {
-    dispatch(actionSetNext(next));
-  };
-  const handlePrevClick = () => {
-    dispatch(actionSetPrev(prev));
+    debugger;
+    dispatch(getCharacters(next));
   };
   return (
     <div className='paginacion'>
-      <button
-        disabled={disablePrev}
-        className={'primary'}
-        onClick={handlePrevClick}
-      >
+      <button disabled={!prev} className={'primary'} onClick={handlePrevClick}>
         Anterior
       </button>
-      <button
-        disabled={disableNext}
-        className={'primary'}
-        onClick={handleNextClick}
-      >
+      <button disabled={!next} className={'primary'} onClick={handleNextClick}>
         Siguiente
       </button>
     </div>
