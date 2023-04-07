@@ -85,7 +85,8 @@ export const characterSlice = createSlice({
       state.next = action.payload.info.next ? action.payload.info.next : '';
     });
     builder.addCase(getFavoriteCharacters.fulfilled, (state, action) => {
-      state.characters = action.payload;
+      state.characters =
+        action.payload.length > 1 ? action.payload : [action.payload];
     });
   },
 });

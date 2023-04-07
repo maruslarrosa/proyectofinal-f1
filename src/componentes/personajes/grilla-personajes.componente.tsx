@@ -19,7 +19,7 @@ const GrillaPersonajes = () => {
 
   return (
     <div className='grilla-personajes'>
-      {characters.length &&
+      {characters &&
         characters.map((c: Character) => (
           <TarjetaPersonaje
             key={c.id}

@@ -16,14 +16,13 @@ const Paginacion = () => {
   const next: string = useAppSelector((state) => state.character.next);
 
   const handlePrevClick = () => {
-    debugger;
     dispatch(getCharacters(prev));
   };
 
   const handleNextClick = () => {
-    debugger;
     dispatch(getCharacters(next));
   };
+
   return (
     <div className='paginacion'>
       <button disabled={!prev} className={'primary'} onClick={handlePrevClick}>

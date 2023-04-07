@@ -22,7 +22,7 @@ const PaginaFavoritos = () => {
   );
   useEffect(() => {
     dispatch(getFavoriteCharacters(favoriteIds));
-  }, []);
+  }, [favoriteIds]);
 
   const handleRemoveAllFavorites = () => {
     dispatch(actionRemoveAllFavorites());
@@ -36,7 +36,11 @@ const PaginaFavoritos = () => {
           Eliminar todos
         </button>
       </div>
-      <GrillaPersonajes />
+      {favoriteIds.length > 0 ? (
+        <GrillaPersonajes />
+      ) : (
+        <p>No tenés personajes favoritos guardados</p>
+      )}
     </div>
   );
 };
