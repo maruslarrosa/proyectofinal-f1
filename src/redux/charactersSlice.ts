@@ -68,6 +68,9 @@ export const characterSlice = createSlice({
     actionRemoveFavorite: (state, action) => {
       state.favorites = state.favorites.filter((f) => f !== action.payload);
     },
+    actionRemoveAllFavorites: (state) => {
+      state.favorites = [];
+    },
     actionSetPrev: (state, action) => {
       state.prev = action.payload;
     },
@@ -91,6 +94,7 @@ export const {
   actionGetCharacters,
   actionAddFavorite,
   actionRemoveFavorite,
+  actionRemoveAllFavorites,
   actionSetNext,
   actionSetPrev,
 } = characterSlice.actions;

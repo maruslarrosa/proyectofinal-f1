@@ -16,23 +16,10 @@ import { Character } from '../../types.ts/character.types';
  *
  * @returns un JSX element
  */
-const GrillaPersonajes = ({ favorites = false }) => {
-  const dispatch = useAppDispatch();
+const GrillaPersonajes = () => {
   const characters: Character[] = useAppSelector(
     (state) => state.character.characters
   );
-
-  const favoriteIds: number[] = useAppSelector(
-    (state) => state.character.favorites
-  );
-
-  useEffect(() => {
-    if (favorites) {
-      dispatch(getFavoriteCharacters(favoriteIds));
-    } else {
-      dispatch(getCharacters());
-    }
-  }, []);
 
   return (
     <div className='grilla-personajes'>
