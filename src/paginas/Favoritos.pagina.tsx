@@ -16,9 +16,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
  */
 const PaginaFavoritos = () => {
   const dispatch = useAppDispatch();
-  const favoriteCharacters = useAppSelector(
-    (state) => state.character.characters
-  );
+
   const favoriteIds: number[] = useAppSelector(
     (state) => state.character.favorites
   );

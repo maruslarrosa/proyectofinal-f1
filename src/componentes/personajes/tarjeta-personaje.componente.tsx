@@ -1,4 +1,3 @@
-import { idText } from 'typescript';
 import BotonFavorito from '../botones/boton-favorito.componente';
 import './tarjeta-personaje.css';
 import { Character } from '../../types.ts/character.types';

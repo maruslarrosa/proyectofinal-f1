@@ -1,11 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import './paginacion.css';
-import { useEffect, useState } from 'react';
-import {
-  actionSetNext,
-  actionSetPrev,
-  getCharacters,
-} from '../../redux/charactersSlice';
+import { getCharacters } from '../../redux/charactersSlice';
 
 /**
  * Componente que contiene los botones para paginar

@@ -1,11 +1,7 @@
 import './grilla-personajes.css';
 import TarjetaPersonaje from './tarjeta-personaje.componente';
-import {
-  getCharacters,
-  getFavoriteCharacters,
-} from '../../redux/charactersSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { useEffect } from 'react';
+import { useAppSelector } from '../../redux/hooks';
+
 import { Character } from '../../types.ts/character.types';
 
 /**
