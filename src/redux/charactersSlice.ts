@@ -6,14 +6,7 @@ const apiGetCharacters = async () => {
   const response = await fetch(baseUrl + '/character');
   if (response.ok) {
     const data = await response.json();
-    // const results: Character[] = data.response.results.map((c: any) => {
-    //   return {
-    //     id: c.id,
-    //     name: c.name,
-    //     image: c.image,
-    //   };
-    // });
-    return data.results;
+    return data;
   } else {
     throw new Error('Error, intentelo mas tarde');
   }
@@ -46,11 +39,15 @@ export const getFavoriteCharacters = createAsyncThunk(
 interface initialType {
   characters: [];
   favorites: number[];
+  prev: string;
+  next: string;
 }
 
 const initialState: initialType = {
   characters: [],
   favorites: [],
+  prev: '',
+  next: '',
 };
 
 export const characterSlice = createSlice({
@@ -64,13 +61,20 @@ export const characterSlice = createSlice({
       state.favorites.push(action.payload);
     },
     actionRemoveFavorite: (state, action) => {
-      //const index = state.favorites.indexOf(action.payload.id)
       state.favorites = state.favorites.filter((f) => f !== action.payload);
+    },
+    actionSetPrev: (state, action) => {
+      state.prev = action.payload;
+    },
+    actionSetNext: (state, action) => {
+      state.next = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getCharacters.fulfilled, (state, action) => {
-      state.characters = action.payload;
+      state.characters = action.payload.results;
+      state.prev = action.payload.info.prev ? action.payload.info.prev : '';
+      state.next = action.payload.info.next ? action.payload.info.next : '';
     });
     builder.addCase(getFavoriteCharacters.fulfilled, (state, action) => {
       state.characters = action.payload;
@@ -78,7 +82,12 @@ export const characterSlice = createSlice({
   },
 });
 
-export const { actionGetCharacters, actionAddFavorite, actionRemoveFavorite } =
-  characterSlice.actions;
+export const {
+  actionGetCharacters,
+  actionAddFavorite,
+  actionRemoveFavorite,
+  actionSetNext,
+  actionSetPrev,
+} = characterSlice.actions;
 
 export default characterSlice.reducer;
