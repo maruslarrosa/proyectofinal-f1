@@ -1,7 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Character } from '../types.ts/character.types';
-import produce from 'immer';
-import { useAppSelector } from './hooks';
 
 const baseUrl = 'https://rickandmortyapi.com/api';
 
@@ -27,7 +24,7 @@ const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
   const response = await fetch(baseUrl + '/character/' + favoriteParams);
   if (response.ok) {
     const data = await response.json();
-    return data.results;
+    return data;
   } else {
     throw new Error('Error, intentelo mas tarde');
   }

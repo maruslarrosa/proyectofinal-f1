@@ -36,7 +36,7 @@ const GrillaPersonajes = ({ favorites = false }) => {
 
   return (
     <div className='grilla-personajes'>
-      {characters &&
+      {characters.length &&
         characters.map((c: Character) => (
           <TarjetaPersonaje
             key={c.id}

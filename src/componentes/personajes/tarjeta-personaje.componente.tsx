@@ -32,7 +32,6 @@ const TarjetaPersonaje = ({ id, name, image }: Character) => {
 
   //const isFavorite = favorites.includes(id);
   const handleFavoriteClick: () => void = () => {
-    debugger;
     if (!favorite) {
       dispatch(actionAddFavorite(id));
     } else {
