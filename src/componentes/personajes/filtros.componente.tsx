@@ -13,7 +13,7 @@ const Filtros = () => {
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const filterParam = e.target.value.split(' ').join('%');
+    const filterParam = e.target.value;
     dispatch(actionSetFilter(filterParam));
     dispatch(getFilteredCharacters(filterParam));
   };
