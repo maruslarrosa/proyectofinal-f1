@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const baseUrl = 'https://rickandmortyapi.com/api';
-
+// TODO: Use template literal instead
 const apiGetCharacters = async (page: string) => {
   const url = page ? page : baseUrl + '/character';
   const response = await fetch(url);
@@ -12,7 +12,7 @@ const apiGetCharacters = async (page: string) => {
     throw new Error('Error, intentelo mas tarde');
   }
 };
-
+// TODO: Use template literal instead
 const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
   const favoriteParams = favoriteIds.join(',');
   const response = await fetch(baseUrl + '/character/' + favoriteParams);
@@ -21,6 +21,19 @@ const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
     return data;
   } else {
     throw new Error('Error, intentelo mas tarde');
+  }
+};
+// TODO: Use template literal instead
+const apiGetFilteredCharacters = async (name: string) => {
+  const url = name
+    ? baseUrl + '/character/?name=' + name
+    : baseUrl + '/character';
+  const response = await fetch(url);
+  if (response.ok) {
+    {
+      const data = await response.json();
+      return data;
+    }
   }
 };
 
@@ -41,11 +54,21 @@ export const getFavoriteCharacters = createAsyncThunk(
   }
 );
 
+//will manage filter calls
+export const getFilteredCharacters = createAsyncThunk(
+  '/getFilteredCharacters',
+  async (name: string) => {
+    const response = await apiGetFilteredCharacters(name);
+    return response;
+  }
+);
+
 interface initialType {
   characters: [];
   favorites: number[];
   prev: string;
   next: string;
+  filter: string;
 }
 
 const initialState: initialType = {
@@ -53,6 +76,7 @@ const initialState: initialType = {
   favorites: [],
   prev: '',
   next: '',
+  filter: '',
 };
 
 export const characterSlice = createSlice({
@@ -77,6 +101,9 @@ export const characterSlice = createSlice({
     actionSetNext: (state, action) => {
       state.next = action.payload;
     },
+    actionSetFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCharacters.fulfilled, (state, action) => {
@@ -88,6 +115,9 @@ export const characterSlice = createSlice({
       state.characters =
         action.payload.length > 1 ? action.payload : [action.payload];
     });
+    builder.addCase(getFilteredCharacters.fulfilled, (state, action) => {
+      state.characters = action.payload.results;
+    });
   },
 });
 
@@ -98,6 +128,7 @@ export const {
   actionRemoveAllFavorites,
   actionSetNext,
   actionSetPrev,
+  actionSetFilter,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;
