@@ -34,6 +34,8 @@ const apiGetFilteredCharacters = async (name: string) => {
       const data = await response.json();
       return data;
     }
+  } else {
+    throw new Error('Error, intentelo mas tarde');
   }
 };
 
@@ -116,7 +118,12 @@ export const characterSlice = createSlice({
         action.payload.length > 1 ? action.payload : [action.payload];
     });
     builder.addCase(getFilteredCharacters.fulfilled, (state, action) => {
-      state.characters = action.payload.results;
+      state.characters = action.payload.results ? action.payload.results : [];
+      state.prev = action.payload.info.prev ? action.payload.info.prev : '';
+      state.next = action.payload.info.next ? action.payload.info.next : '';
+    });
+    builder.addCase(getFilteredCharacters.rejected, (state) => {
+      state.characters = [];
     });
   },
 });

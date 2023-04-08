@@ -22,8 +22,8 @@ const PaginaFavoritos = () => {
     (state) => state.character.favorites
   );
   useEffect(() => {
-    dispatch(actionSetFilter(''));
     dispatch(getFavoriteCharacters(favoriteIds));
+    dispatch(actionSetFilter(''));
   }, [favoriteIds]);
 
   const handleRemoveAllFavorites = () => {
