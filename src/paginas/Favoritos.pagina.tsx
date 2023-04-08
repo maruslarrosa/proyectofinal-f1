@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import GrillaPersonajes from '../componentes/personajes/grilla-personajes.componente';
 import {
   actionRemoveAllFavorites,
+  actionSetFilter,
   getFavoriteCharacters,
 } from '../redux/charactersSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -21,6 +22,7 @@ const PaginaFavoritos = () => {
     (state) => state.character.favorites
   );
   useEffect(() => {
+    dispatch(actionSetFilter(''));
     dispatch(getFavoriteCharacters(favoriteIds));
   }, [favoriteIds]);
 

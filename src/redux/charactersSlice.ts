@@ -15,7 +15,7 @@ const apiGetCharacters = async (page: string) => {
 
 const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
   const favoriteParams = favoriteIds.join(',');
-  const response = await fetch(`${baseUrl}/character${favoriteParams}`);
+  const response = await fetch(`${baseUrl}/character/${favoriteParams}`);
   if (response.ok) {
     const data = await response.json();
     return data;
