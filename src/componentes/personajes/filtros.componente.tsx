@@ -1,21 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   actionSetFilter,
   getFilteredCharacters,
 } from '../../redux/charactersSlice';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import './filtros.css';
 
 const Filtros = () => {
   const dispatch = useAppDispatch();
+  const storeFilter = useAppSelector((state) => state.character.filter);
   const [filter, setFilter] = useState('');
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFilter(e.target.value);
-    dispatch(actionSetFilter(filter));
+    dispatch(actionSetFilter(filter.split(' ').join('%')));
     dispatch(getFilteredCharacters(filter));
   };
+
+  useEffect(() => {
+    if (storeFilter === '') {
+      setFilter('');
+    }
+  }, [storeFilter]);
 
   return (
     <div className='filtros'>
