@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   actionSetFilter,
   getFilteredCharacters,
@@ -9,18 +9,21 @@ import './filtros.css';
 const Filtros = () => {
   const dispatch = useAppDispatch();
   const storeFilter = useAppSelector((state) => state.character.filter);
-  const [filter, setFilter] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debugger;
     e.preventDefault();
-    setFilter(e.target.value);
-    dispatch(actionSetFilter(filter.split(' ').join('%')));
-    dispatch(getFilteredCharacters(filter));
+    const filterParam = e.target.value.split(' ').join('%');
+    dispatch(actionSetFilter(filterParam));
+    dispatch(getFilteredCharacters(filterParam));
   };
 
   useEffect(() => {
     if (storeFilter === '') {
-      setFilter('');
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
     }
   }, [storeFilter]);
 
@@ -31,8 +34,8 @@ const Filtros = () => {
         type='text'
         placeholder='Rick, Morty, Beth, Alien, ...etc'
         name='nombre'
-        value={filter}
         onChange={handleFilterChange}
+        ref={inputRef}
       />
     </div>
   );
