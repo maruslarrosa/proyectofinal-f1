@@ -12,7 +12,6 @@ const Filtros = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debugger;
     e.preventDefault();
     const filterParam = e.target.value.split(' ').join('%');
     dispatch(actionSetFilter(filterParam));

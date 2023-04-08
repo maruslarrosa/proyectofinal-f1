@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const baseUrl = 'https://rickandmortyapi.com/api';
-// TODO: Use template literal instead
+
 const apiGetCharacters = async (page: string) => {
-  const url = page ? page : baseUrl + '/character';
+  const url = page ? page : `${baseUrl}/character`;
   const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();
@@ -12,10 +12,10 @@ const apiGetCharacters = async (page: string) => {
     throw new Error('Error, intentelo mas tarde');
   }
 };
-// TODO: Use template literal instead
+
 const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
   const favoriteParams = favoriteIds.join(',');
-  const response = await fetch(baseUrl + '/character/' + favoriteParams);
+  const response = await fetch(`${baseUrl}/character${favoriteParams}`);
   if (response.ok) {
     const data = await response.json();
     return data;
@@ -23,11 +23,11 @@ const apiGetFavoriteCharacters = async (favoriteIds: number[]) => {
     throw new Error('Error, intentelo mas tarde');
   }
 };
-// TODO: Use template literal instead
+
 const apiGetFilteredCharacters = async (name: string) => {
   const url = name
-    ? baseUrl + '/character/?name=' + name
-    : baseUrl + '/character';
+    ? `${baseUrl}/character/?name=${name}`
+    : `${baseUrl}/character`;
   const response = await fetch(url);
   if (response.ok) {
     {
